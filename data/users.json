@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "username": "demo",
+    "passwordHash": "$2b$10$uTXZWMuPt6EX0Rj41Ri7H.SBJVGB5OmuHMawXaVioHRf52BXQSqjC"
+  },
+  {
+    "username": "demo2",
+    "passwordHash": "$2b$10$7OBynPZ3il3So1TByvwcHuHpADM.seKiLuxSkicxZ0B1MHJaYLRr6"
+  },
+  {
+    "username": "demo3",
+    "passwordHash": "$2b$10$4PEXI1P0V55lGcNLSxCMPOfpMq.E03dOYetF839uin4cjd6g4VXBq"
+  }
+]

@@ -1,1 +1,3 @@
-export interface IPasswordHasher { hash(plain: string): Promise<string>; }
+export interface IPasswordHasher {
+  hash(plain: string): Promise<string>;
+}

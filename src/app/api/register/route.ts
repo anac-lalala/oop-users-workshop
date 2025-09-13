@@ -1,23 +1,21 @@
 import { RegisterUserUseCase } from "@/application/use-cases/RegisterUserUseCase";
 import { env } from "@/config/env";
-import { createUserRepository } from "@/config/RepositoryFactory";
+import { RepositoryFactory } from "@/config/RepositoryFactory";
+import { RegisterRouteHandler } from "@/domain/handlers/RegisterRouteHandler";
 import { BcryptPasswordHasher } from "@/infrastructure/services/BcryptPasswordHasher";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const repository = createUserRepository();
-    const hasher = new BcryptPasswordHasher(env.BCRYPT_SALT_ROUNDS);
-    const useCase = new RegisterUserUseCase(repository, hasher);
+  const createUserRepository = RepositoryFactory.createUserRepository(
+    env.REPO_TYPE
+  );
+  const bcryptPasswordHasher = new BcryptPasswordHasher();
 
-    const result = await useCase.execute(body);
-    return NextResponse.json(result, { status: 201 });
-  } catch (error: unknown) {
-    console.error("Unexpected error:", error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
-  }
+  const registerUserUseCase = new RegisterUserUseCase(
+    createUserRepository,
+    bcryptPasswordHasher
+  );
+  const registerRouteHandler = new RegisterRouteHandler(registerUserUseCase);
+
+  return registerRouteHandler.handle(req);
 }
