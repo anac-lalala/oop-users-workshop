@@ -1,13 +1,13 @@
 import { User } from "@/domain/entities/User";
-import { IUserRepository } from "@/domain/repositories/IUserRepository";
+import { UserRepository } from "@/domain/repositories/UserRepository";
 
-export class InMemoryUserRepository implements IUserRepository {
+export class InMemoryUserRepository implements UserRepository {
   private store = new Map<string, User>();
 
   async findByUsername(username: string): Promise<User | null> {
     return this.store.get(username) ?? null;
   }
-  async save(user: User): Promise<void> {
+  async saveUser(user: User): Promise<void> {
     this.store.set(user.username, user);
   }
 }

@@ -1,13 +1,12 @@
+import { UserRepository } from "../repositories/UserRepository";
 import { InMemoryUserRepository } from "@/infrastructure/repositories/InMemoryUserRepository";
-import { env } from "./env";
 import { FileRepository } from "@/infrastructure/repositories/FileRepository";
-import { UserRepository } from "@/domain/repositories/UserRepository";
 
-export class RepositoryFactory {
-  static createUserRepository(type: string): UserRepository {
+export class SaveUserCreator {
+  static createSaveUser(type: string): UserRepository {
     switch (type) {
       case "file":
-        return new FileRepository(env.FILE_PATH);
+        return new FileRepository("./data/users.json");
       case "memory":
       default:
         return new InMemoryUserRepository();

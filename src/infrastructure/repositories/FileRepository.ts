@@ -1,9 +1,10 @@
 import { User } from "@/domain/entities/User";
+import { UserRepository } from "@/domain/repositories/UserRepository";
 import { Mutex } from "@/shared/concurrency/Mutex";
 import { promises } from "fs";
 import { dirname } from "path";
 
-export class FileRepository {
+export class FileRepository implements UserRepository {
   private index = new Map<string, User>();
   private mutex = new Mutex();
 
@@ -53,7 +54,7 @@ export class FileRepository {
     return this.index.get(username) ?? null;
   }
 
-  async save(user: User): Promise<void> {
+  async saveUser(user: User): Promise<void> {
     await this.mutex.runExclusive(async () => {
       if (this.index.size === 0) {
         await this.loadAll();
